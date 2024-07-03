@@ -1,0 +1,274 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.35299468449278143 -0.3509934846063707 0.86729367949024 4.56486405603688
+  position -0.13121966848902747 3.2208751019438018 2.900104898461782
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+  floorTileSize 0.25 0.25
+}
+DEF ROBOT_1 Robot {
+  rotation 0 0 1 -3.141592653589793
+  children [
+    Emitter {
+      channel 2
+    }
+    Receiver {
+      channel 1
+    }
+    DEF gps Solid {
+      translation 0 0 0.083
+      children [
+        GPS {
+          name "gps_1"
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "gps_slot"
+    }
+    Solid {
+      translation -0.04 -0.025 0.07
+      rotation 0 0 1 -2
+      children [
+        DistanceSensor {
+          name "ps2"
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "left_sensor"
+    }
+    Solid {
+      translation 0.04 -0.025 0.07
+      rotation 0 0 1 -0.95
+      children [
+        DistanceSensor {
+          name "ps3"
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "right_sensor"
+    }
+    DEF Body Pose {
+      translation 0 0 0.0415
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 39.15642398449415
+        anchor 0.045 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "motor_1"
+        }
+        DEF ps_1 PositionSensor {
+          name "ps_1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0 0.025
+        rotation 0.5545454238305658 -0.6208446906366752 -0.5541040001812199 2.0296675386564313
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.025
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics DEF wheel_physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 58.8271213797957
+        anchor -0.045 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "motor_2"
+        }
+        DEF ps_2 PositionSensor {
+          name "ps_2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0 0.025
+        rotation -0.6726497148649568 0.3095234353245864 0.6721142790307011 3.742384324607291
+        children [
+          USE wheel
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics USE wheel_physics
+      }
+    }
+    Solid {
+      translation 0.015 -0.045 0.07
+      children [
+        DistanceSensor {
+          rotation 0 0 1 -1.57
+          name "ps0"
+        }
+        DEF eye Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "eye_left"
+    }
+    Solid {
+      translation -0.015 -0.045 0.07
+      children [
+        DistanceSensor {
+          rotation 0 0 1 -1.57
+          name "ps1"
+        }
+        USE eye
+      ]
+      name "eye_right"
+    }
+  ]
+  name "robot_1"
+  boundingObject USE Body
+  physics Physics {
+  }
+  controller "robot_controller_NS"
+}
+Robot {
+  children [
+    Receiver {
+      channel 2
+    }
+    Emitter {
+      channel 1
+    }
+  ]
+  name "GA"
+  controller "GA_supervisor_NS"
+  supervisor TRUE
+}
+DEF OBSTACLE_1 Solid {
+  translation 0.53573 0.381787 0.06
+  children [
+    DEF obstacle Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.5 0.1
+      }
+    }
+  ]
+  contactMaterial "obstacle_1"
+  boundingObject USE obstacle
+}
+Solid {
+  translation -0.722353 0.684824 0.06
+  rotation 0 0 1 2.309
+  children [
+    USE obstacle
+  ]
+  name "solid(1)"
+  boundingObject USE obstacle
+}
+Solid {
+  translation -0.408008 -0.805546 0.05
+  rotation 0 0 -1 -1.5708053071795867
+  children [
+    USE obstacle
+  ]
+  name "solid(2)"
+  boundingObject USE obstacle
+}
+Solid {
+  translation 0.787635 -0.764464 0.05
+  rotation 0 0 -1 2.3562
+  children [
+    USE obstacle
+  ]
+  name "solid(3)"
+  boundingObject USE obstacle
+}
+Solid {
+  translation -0.529231 -0.0473863 0.05
+  children [
+    USE obstacle
+  ]
+  name "solid(4)"
+  boundingObject USE obstacle
+}
+Solid {
+  translation -0.00603784 0.480752 0.07
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    USE obstacle
+  ]
+  name "solid(5)"
+  boundingObject USE obstacle
+}
