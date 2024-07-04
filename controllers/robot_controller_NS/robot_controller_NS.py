@@ -28,7 +28,7 @@ def nn_controller(inputs, params):
 
     ### set right motor speed
     # weighted connection from left eye to right motor command
-    right_speed_command = inputs[0] * params[6]
+    right_speed_command = inputs[0] * params[5]
     # weighted connection from left sensor to right motor command
     right_speed_command += inputs[3] * params[6]
     # weighted connection from right eye to right motor command
